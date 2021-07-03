@@ -13,6 +13,14 @@ import AltSign
 
 import LaunchAtLogin
 
+#if STAGING
+private let altstoreAppURL = URL(string: "https://f000.backblazeb2.com/file/altstore-staging/altstore.ipa")!
+#elseif BETA
+private let altstoreAppURL = URL(string: "https://cdn.altstore.io/file/altstore/altstore-beta.ipa")!
+#else
+private let altstoreAppURL = URL(string: "https://cdn.altstore.io/file/altstore/altstore.ipa")!
+#endif
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -259,7 +267,7 @@ extension AppDelegate: NSMenuDelegate
     {
         guard menu == self.appMenu else { return }
 
-        self.connectedDevices = ALTDeviceManager.shared.connectedDevices
+        self.connectedDevices = ALTDeviceManager.shared.availableDevices
 
         self.launchAtLoginMenuItem.target = self
         self.launchAtLoginMenuItem.action = #selector(AppDelegate.toggleLaunchAtLogin(_:))
